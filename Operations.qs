@@ -46,4 +46,27 @@ namespace QSharpTest
         // and number of times we saw a |1>
         return (count - numOnes, numOnes, agree);
     }
+
+    operation Test(count: Int, initial: Result) : (Int, Int)
+    {
+        mutable numOnes = 0;
+        using (q0 = Qubit())
+        {
+            for (test in 1..count)
+            {
+                Set(initial, q0);
+
+                let res = M(q0);
+
+                if (res == One)
+                {
+                    set numOnes += 1;
+                }
+            }
+
+            Set(Zero, q0);
+        }
+
+        return (count - numOnes, numOnes);
+    }
 }
