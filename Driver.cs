@@ -1,17 +1,48 @@
 using System;
-
+using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace QSharpTest
+namespace Bell
 {
-    class Driver
+    public class Driver
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
+        {
+            // RunResourcesEstimator();
+            RunQuantumSimulator();
+        }
+
+        private static void RunResourcesEstimator()
+        {
+            var estimator = new ResourcesEstimator();
+            Run(estimator);
+
+            Console.WriteLine(estimator.ToTSV());
+        }
+
+        private static void RunQuantumSimulator()
         {
             using (var qsim = new QuantumSimulator())
             {
-                HelloQ.Run(qsim).Wait();
+                Run(qsim);
+            }
+        }
+
+        private static void Run(SimulatorBase simulator)
+        {
+            RunBellTest(simulator);
+        }
+
+        private static void RunBellTest(SimulatorBase simulator)
+        {
+            // Try initial values
+            Result[] initials = new Result[] { Result.Zero, Result.One };
+            foreach (Result initial in initials)
+            {
+                var res = BellTest.Run(simulator, 1000, initial).Result;
+                var (numZeros, numOnes, agree) = res;
+                Console.WriteLine($"Init:{initial,-4} 0s={numZeros,-4} 1s={numOnes,-4} agree={agree,-4}");
             }
         }
     }
