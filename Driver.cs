@@ -3,7 +3,7 @@ using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Bell
+namespace QSharpTest
 {
     public class Driver
     {
@@ -40,7 +40,7 @@ namespace Bell
             Result[] initials = new Result[] { Result.Zero, Result.One };
             foreach (Result initial in initials)
             {
-                var res = BellTest.Run(simulator, 1000, initial).Result;
+                var res = QSharpTest.Run(simulator, 1000, initial).Result;
                 var (numZeros, numOnes, agree) = res;
                 Console.WriteLine($"Init:{initial,-4} 0s={numZeros,-4} 1s={numOnes,-4} agree={agree,-4}");
             }
